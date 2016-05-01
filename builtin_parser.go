@@ -5,6 +5,10 @@ import (
 	"strconv"
 )
 
+var builtInParsers = []Parser{
+	boolParser, stringParser,
+}
+
 // kindParser only supports parsing types of kind k.
 type kindParser struct {
 	k reflect.Kind

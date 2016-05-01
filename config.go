@@ -27,7 +27,7 @@ type Validator interface {
 	Validate() error
 }
 
-func Load(ptr interface{}, parsers []Parser, providers []Provider) error {
+func Load(ptr interface{}, userProvidedParsers []Parser, providers []Provider) error {
 	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
 		return errors.New("must provide a pointer")
 	}
@@ -36,6 +36,8 @@ func Load(ptr interface{}, parsers []Parser, providers []Provider) error {
 	if v.Kind() != reflect.Struct {
 		return errors.New("must provide a pointer to struct")
 	}
+
+	parsers := append(builtInParsers, userProvidedParsers...)
 
 	t := v.Type()
 	for i := 0; i < v.NumField(); i++ {
