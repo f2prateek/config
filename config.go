@@ -58,7 +58,7 @@ func Load(ptr interface{}, userProvidedParsers []Parser, providers []Provider) e
 		for _, parser := range parsers {
 			val, err := parser.Parse(fieldType, providedValue)
 			if err != nil {
-				return fmt.Errorf("error converting %v to type %v: %v", providedValue, fieldValue.Kind(), err)
+				return fmt.Errorf("error converting %q to type %v: %v", providedValue, fieldValue.Kind(), err)
 			}
 			if val == nil {
 				continue

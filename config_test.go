@@ -42,6 +42,19 @@ func TestLoadDefaults(t *testing.T) {
 	assert.Equal(t, false, config.Debug)
 }
 
+func TestParserError(t *testing.T) {
+	var config struct {
+		Debug bool
+	}
+
+	err := Load(&config, nil, testProvider(map[string]string{
+		"Debug": "invalid",
+	}))
+
+	assert.Equal(t, errors.New("error converting \"invalid\" to type bool: strconv.ParseBool: parsing \"invalid\": invalid syntax"), err)
+	assert.Equal(t, false, config.Debug)
+}
+
 type validatingConfig struct {
 	Foo string
 }
