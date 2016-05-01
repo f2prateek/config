@@ -35,7 +35,7 @@ func Load(ptr interface{}, userProvidedParsers []Parser, providers []Provider) e
 		return errors.New("must provide a pointer to struct")
 	}
 
-	parsers := append(builtInParsers, userProvidedParsers...)
+	parsers := append(userProvidedParsers, builtInParsers...)
 
 	t := v.Type()
 	for i := 0; i < v.NumField(); i++ {
