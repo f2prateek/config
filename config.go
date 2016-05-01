@@ -12,8 +12,6 @@ type Provider interface {
 	Provide(k string) string
 }
 
-var ErrTypeNotSupported = errors.New("parser does not support given type")
-
 // Parser is the interface that wraps the Parse method.
 type Parser interface {
 	// Parse parses the given value into the given type. Parse returns an error
@@ -59,11 +57,11 @@ func Load(ptr interface{}, userProvidedParsers []Parser, providers []Provider) e
 		var parsedVal interface{}
 		for _, parser := range parsers {
 			val, err := parser.Parse(fieldType, providedValue)
-			if err == ErrTypeNotSupported {
-				continue
-			}
 			if err != nil {
 				return fmt.Errorf("error converting %v to type %v: %v", providedValue, fieldValue.Kind(), err)
+			}
+			if val == nil {
+				continue
 			}
 			parsedVal = val
 			break

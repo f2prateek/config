@@ -17,7 +17,7 @@ type kindParser struct {
 
 func (p *kindParser) Parse(t reflect.Type, v string) (interface{}, error) {
 	if t.Kind() != p.k {
-		return nil, ErrTypeNotSupported
+		return nil, nil
 	}
 
 	return p.f(v)
