@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/bmizerany/assert"
@@ -39,4 +40,20 @@ func TestLoadDefaults(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "", config.Name)
 	assert.Equal(t, false, config.Debug)
+}
+
+type validatingConfig struct {
+	Foo string
+}
+
+func (v *validatingConfig) Validate() error {
+	return errors.New("test")
+}
+
+func TestLoadValidates(t *testing.T) {
+	var config validatingConfig
+
+	err := Load(&config, nil, testProvider(map[string]string{}))
+
+	assert.Equal(t, errors.New("test"), err)
 }
