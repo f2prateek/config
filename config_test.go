@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 
 	"github.com/bmizerany/assert"
@@ -47,11 +48,15 @@ func TestParserError(t *testing.T) {
 		Debug bool
 	}
 
-	err := Load(&config, nil, testProvider(map[string]string{
-		"Debug": "invalid",
+	badParser := parserFunc(func(t reflect.Type, v string) (interface{}, error) {
+		return nil, errors.New("test")
+	})
+
+	err := Load(&config, []Parser{badParser}, testProvider(map[string]string{
+		"Debug": "foo",
 	}))
 
-	assert.Equal(t, errors.New("error converting \"invalid\" to type bool: strconv.ParseBool: parsing \"invalid\": invalid syntax"), err)
+	assert.Equal(t, errors.New("error converting \"foo\" to type bool: test"), err)
 	assert.Equal(t, false, config.Debug)
 }
 

@@ -9,6 +9,12 @@ var builtInParsers = []Parser{
 	boolParser, stringParser,
 }
 
+type parserFunc func(t reflect.Type, v string) (interface{}, error)
+
+func (f parserFunc) Parse(t reflect.Type, v string) (interface{}, error) {
+	return f(t, v)
+}
+
 // kindParser only supports parsing types of kind k.
 type kindParser struct {
 	k reflect.Kind
