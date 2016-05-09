@@ -43,6 +43,31 @@ func TestLoadDefaults(t *testing.T) {
 	assert.Equal(t, false, config.Debug)
 }
 
+func TestLoadFailsForNonPointer(t *testing.T) {
+	var config struct {
+		Name  string
+		Debug bool
+	}
+
+	err := Load(config, nil, testProvider(map[string]string{
+		"Name":  "prateek",
+		"Debug": "true",
+	}))
+
+	assert.Equal(t, errors.New("must provide a pointer"), err)
+}
+
+func TestLoadFailsForNonStruct(t *testing.T) {
+	i := 0
+
+	err := Load(&i, nil, testProvider(map[string]string{
+		"Name":  "prateek",
+		"Debug": "true",
+	}))
+
+	assert.Equal(t, errors.New("must provide a pointer to struct"), err)
+}
+
 func TestParserError(t *testing.T) {
 	var config struct {
 		Debug bool
