@@ -51,3 +51,21 @@ func TestInt(t *testing.T) {
 		assert.Equal(t, c.out, v)
 	}
 }
+
+func TestFloat(t *testing.T) {
+	cases := []struct {
+		in  string
+		out interface{}
+		err bool
+	}{
+		{"0", float32(0), false},
+		{"8", float64(8), false},
+		{"sa", float32(0), true},
+	}
+
+	for _, c := range cases {
+		v, err := floatParser.Parse(reflect.TypeOf(c.out), c.in)
+		assert.Equal(t, c.err, err != nil)
+		assert.Equal(t, c.out, v)
+	}
+}

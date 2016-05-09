@@ -6,7 +6,7 @@ import (
 )
 
 var builtInParsers = []Parser{
-	boolParser, intParser, stringParser,
+	boolParser, intParser, floatParser, stringParser,
 }
 
 type parserFunc func(t reflect.Type, v string) (interface{}, error)
@@ -58,8 +58,19 @@ var intParser = parserFunc(func(t reflect.Type, v string) (interface{}, error) {
 		v, err := strconv.ParseInt(v, 0, 32)
 		return int32(v), err
 	case reflect.Int64:
-		v, err := strconv.ParseInt(v, 0, 64)
-		return int64(v), err
+		return strconv.ParseInt(v, 0, 64)
+	default:
+		return nil, nil
+	}
+})
+
+var floatParser = parserFunc(func(t reflect.Type, v string) (interface{}, error) {
+	switch t.Kind() {
+	case reflect.Float32:
+		v, err := strconv.ParseFloat(v, 32)
+		return float32(v), err
+	case reflect.Float64:
+		return strconv.ParseFloat(v, 64)
 	default:
 		return nil, nil
 	}
