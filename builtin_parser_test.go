@@ -41,7 +41,7 @@ func TestInt(t *testing.T) {
 		{"8", int8(8), false},
 		{"16", int16(16), false},
 		{"32", int32(32), false},
-		{"64", int32(64), false},
+		{"64", int64(64), false},
 		{"sa", int(0), true},
 	}
 
@@ -62,7 +62,7 @@ func TestUint(t *testing.T) {
 		{"8", uint8(8), false},
 		{"16", uint16(16), false},
 		{"32", uint32(32), false},
-		{"64", uint32(64), false},
+		{"64", uint64(64), false},
 		{"sa", uint(0), true},
 	}
 
