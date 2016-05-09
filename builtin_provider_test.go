@@ -14,12 +14,12 @@ func TestEnvProvider(t *testing.T) {
 	assert.Equal(t, "", EnvProvider.Provide("foo"))
 }
 
-func TestOSArgsProvider(t *testing.T) {
+func TestArgsProvider(t *testing.T) {
 	defer setArgs("test", "--foo", "bar", "--qaz")()
 
-	assert.Equal(t, "bar", OSArgsProvider.Provide("foo"))
-	assert.Equal(t, "", OSArgsProvider.Provide("bar"))
-	assert.Equal(t, "", OSArgsProvider.Provide("qaz"))
+	assert.Equal(t, "bar", ArgsProvider.Provide("foo"))
+	assert.Equal(t, "", ArgsProvider.Provide("bar"))
+	assert.Equal(t, "", ArgsProvider.Provide("qaz"))
 }
 
 func setEnv(k, v string) func() {

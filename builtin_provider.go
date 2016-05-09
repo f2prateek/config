@@ -6,7 +6,7 @@ var EnvProvider = providerFunc(func(s string) string {
 	return os.Getenv(s)
 })
 
-var OSArgsProvider = providerFunc(func(s string) string {
+var ArgsProvider = providerFunc(func(s string) string {
 	for i, arg := range os.Args {
 		if arg != "--"+s {
 			continue

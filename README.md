@@ -5,3 +5,15 @@ Package config provides a pluggable mechanism for loading configurations. It acc
 ```go
 func Load(ptr interface{}, parsers []Parser, providers []Provider) error
 ```
+
+```go
+type AppConfig struct {
+  Name  string
+  Version int
+  Debug bool
+}
+
+err := config.Load(&appConfig, nil, []Provider{config.EnvProvider, config.ArgsProvider})
+
+fmt.Println(appConfig, err)
+```
